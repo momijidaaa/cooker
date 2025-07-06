@@ -4,7 +4,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8" />
-<title>クッキークリッカー完全版</title>
+<title>クッキーを作るゲーム</title>
 <style>
   body {
     background: #f0e6d2;
@@ -258,7 +258,7 @@
     <h2>🏭 施設</h2>
   </div>
   <div class="area" id="skillArea">
-    <h2>🧪 スキルツリー</h2>
+    <h2>🧪 スキル</h2>
   </div>
   <div class="area" id="achievementArea">
     <h2>🏆 称号</h2>
@@ -778,7 +778,7 @@ function updatePassive() {
   facilities.forEach(f => totalCps += f.count * f.cps);
 
   if (cookieStormActive) {
-    totalCps *= 3;  // クッキーストーム中は生産量3倍
+    totalCps *= 3;  // クッキーブースト中は施設生産量3倍
   }
 
   passiveBonus += totalCps;
@@ -791,7 +791,7 @@ function gameLoop() {
     if (cookieStormTimer <= 0) {
       cookieStormActive = false;
       cookieStormTimer = 0;
-      alert("クッキーストーム終了！");
+      alert("クッキーブースト終了！");
     }
   }
 
