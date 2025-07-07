@@ -211,16 +211,6 @@
   <div class="area" id="achievementArea">
     <h2>🏆 称号</h2>
   </div>
-</div>
-// バージョンが変わったらセーブデータを削除する仕組み
-const gameVersion = "1.1.0"; // ←この数字を更新したら自動的にセーブ初期化
-const savedVersion = localStorage.getItem("gameVersion");
-
-if (savedVersion !== gameVersion) {
-  console.log(`🆕 バージョン変更検出：${savedVersion} → ${gameVersion}。セーブデータを初期化します`);
-  localStorage.removeItem('cookieClickerSave');
-  localStorage.setItem("gameVersion", gameVersion);
-}
 
 <script>
 const canvas = document.getElementById('cookieCanvas');
