@@ -1,14 +1,14 @@
-
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8" />
-<title>クッキーを作るゲーム</title>
-<div id="noticeArea" class="notice">
-クッキーを作るだけのゲーム🍪
-<div id="noticeArea" class="notice">
- update内容:
+<title>クッキーを作るだけのゲーム</title>
+    <div id="noticeArea" class="notice">
+        クッキーを作るだけのゲーム🍪
+　　<div id="noticeArea" class="notice">
+      update内容:
+</div>
+
 <style>
   body {
     background: #f0e6d2;
@@ -16,16 +16,7 @@
     text-align: center;
     padding: 20px 10px;
     user-select: none;
-  }button {
-  font-size: 14px;
-}
-
-/* モバイル用（下にある） */
-@media (max-width: 768px) {
-  button {
-    font-size: 18px;
   }
-}
 
   h1 {
     color: #b35c00;
@@ -180,67 +171,20 @@
   button {
     background-color: var(--button-bg);
   }
-
-@media (max-width: 768px) {
-  #mainAreas {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .area {
-    width: 90%;
-    max-width: 360px;
-  }
-
-  button {
-    font-size: 1.1rem;
-    padding: 10px 18px;
-    margin: 6px 0;
-    width: 90%;
-  }
-
-  h1 {
-    font-size: 1.5rem;
-  }
-
-  #cookieCount {
-    font-size: 1.2rem;
-  }
-
-  #cookieCanvas {
-    width: 160px !important;
-    height: 160px !important;
-  }
-
-  #cookieWrapper {
-    padding: 10px;
-  }
-
-  #controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-  }
-
-  #cookieStyleSelector {
-    width: 80%;
-    font-size: 1rem;
-    padding: 8px;
-  }
-}
-
 </style>
 </head>
 <body class="default-theme">
 
 
 <h1>クッキーをクリック！</h1>
+    <div id="noticeArea" class="notice">
+　アップデート実施！データを完全消去すると全て表示されます
+ <div>       
 
 <div id="controls">
   <button id="resetBtn" onclick="resetGame()">🔄 再生（リセット）</button>
   <button onclick="hardReset()">🗑️ データ完全削除</button>
-  <button id="stormBtn" onclick="startCookieStorm()">⚡クッキーストーム発動⚡</button>\
+  <button id="stormBtn" onclick="startCookieStorm()">⚡クッキーブースト発動⚡</button>\
 
   <!-- クッキー着せ替え -->
   <select id="cookieStyleSelector" onchange="changeCookieStyle(this.value)">
@@ -249,7 +193,6 @@
     <option value="strawberry">🍓 いちご</option>
   </select>
 </div>
-<div id="saveStatus">🕐 セーブ待機中…<(div>
 
 
 <div id="cookieWrapper">
@@ -263,12 +206,21 @@
     <h2>🏭 施設</h2>
   </div>
   <div class="area" id="skillArea">
-    <h2>🧪 スキル</h2>
+    <h2>🧪 スキルツリー</h2>
   </div>
   <div class="area" id="achievementArea">
     <h2>🏆 称号</h2>
   </div>
 </div>
+// バージョンが変わったらセーブデータを削除する仕組み
+const gameVersion = "1.1.0"; // ←この数字を更新したら自動的にセーブ初期化
+const savedVersion = localStorage.getItem("gameVersion");
+
+if (savedVersion !== gameVersion) {
+  console.log(`🆕 バージョン変更検出：${savedVersion} → ${gameVersion}。セーブデータを初期化します`);
+  localStorage.removeItem('cookieClickerSave');
+  localStorage.setItem("gameVersion", gameVersion);
+}
 
 <script>
 const canvas = document.getElementById('cookieCanvas');
@@ -335,10 +287,10 @@ const facilities = [
 { name: "運命書き換えクッキーマシン", baseCost: 800000000000000,cps: 80000000000,baseCps: 80000000000,count: 0, cost: 800000000000000 },
 { name: "神性焼成記憶装置",         baseCost: 2000000000000000,cps: 200000000000,baseCps: 200000000000,count: 0, cost: 2000000000000000 },
 { name: "宇宙の果てのクッキー塔",   baseCost: 9999999999999999,cps: 999999999999,cost: 9999999999999999, baseCps: 999999999999, count: 0 },
-{ name: "神",   baseCost1e68,Cps, 1e20 cost: 1e68, baseCps: 1e20, count: 0 },
+{ name: "神",   baseCost: 10000000000000000000000000000000000000000,cps: 999999999999999999999,cost: 10000000000000000000000000000000000000000, baseCps: 999999999999999999999, count: 0 },
 { name: "無の境地クッキー炉", baseCost: 5e16, cps: 5e11, baseCps: 5e11, count: 0, cost: 5e16 },
 { name: "幻想クッキー創造機", baseCost: 2e17, cps: 1.5e12, baseCps: 1.5e12, count: 0, cost: 2e17 },
-{ name: "超無限クッキーAI神殿", baseCost: 1e18, cps: 5e12, baseCps: 5e12, count: 0, cost: 1e18 },
+{ name: "超無限クッキーAI神殿", baseCost: 1e68, cps: 5e32, baseCps: 5e32, count: 0, cost: 1e68 },
 
 
 ];
@@ -783,7 +735,7 @@ function updatePassive() {
   facilities.forEach(f => totalCps += f.count * f.cps);
 
   if (cookieStormActive) {
-    totalCps *= 3;  // クッキーブースト中は施設生産量3倍
+    totalCps *= 3;  // クッキーストーム中は生産量3倍
   }
 
   passiveBonus += totalCps;
@@ -831,7 +783,7 @@ function updateStormButton() {
 
 function resetGame() {
   if (!confirm("本当に再生（リセット）しますか？\n全てのクッキーと施設数がリセットされます。")) return;
-  prestige += Math.floor(cookieCount / 10000); // 10000クッキーごとに1プレミアム
+  prestige += Math.floor(cookieCount/10000); // 10000クッキーごとに1プレミアム
   cookieCount = 0;
   facilities.forEach(f => {
     f.count = 0;
@@ -980,12 +932,6 @@ function changeCookieStyle(style) {
   drawCookie(); 
 }
 
-<style>
-#savestatus
-  font-size: 0.8rem;
-  color: #555;
-  margin-top: 5px;
-}
 // 初期化
 loadGame();
 updateUI();
