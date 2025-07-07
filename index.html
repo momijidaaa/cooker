@@ -249,6 +249,7 @@
     <option value="strawberry">🍓 いちご</option>
   </select>
 </div>
+<div id="saveStatus">🕐 セーブ待機中…<(div>
 
 
 <div id="cookieWrapper">
@@ -979,11 +980,28 @@ function changeCookieStyle(style) {
   drawCookie(); 
 }
 
+<style>
+#savestatus
+  font-size: 0.8rem;
+  color: #555;
+  margin-top: 5px;
+ }
+
+function autosaveloop() {
+  saveGame();
+  const saveelem = document.getElementById("saveStatus");
+  const now = new Date();
+  saveelem.textcontent = `💾 ${timeStr}にセーブしました`;
+
+setTimeout(autosaveLoop, 10000);
+}
+
 // 初期化
 loadGame();
 updateUI();
 updateStormButton();
 gameLoop();
+autosaveloop();
 </script>
 </body>
 </html>
