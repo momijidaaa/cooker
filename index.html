@@ -330,7 +330,7 @@ const facilities = [
 { name: "運命書き換えクッキーマシン", baseCost: 800000000000000,cps: 80000000000,baseCps: 80000000000,count: 0, cost: 800000000000000 },
 { name: "神性焼成記憶装置",         baseCost: 2000000000000000,cps: 200000000000,baseCps: 200000000000,count: 0, cost: 2000000000000000 },
 { name: "宇宙の果てのクッキー塔",   baseCost: 9999999999999999,cps: 999999999999,cost: 9999999999999999, baseCps: 999999999999, count: 0 },
-{ name: "神",   baseCost: 100000000000000000000000000000,cps: 999999999999999999999,cost: 100000000000000000000000000000, baseCps: 999999999999999999999, count: 0 },
+{ name: "神",   baseCost1e68,Cps, 1e20 cost: 1e68, baseCps: 1e20, count: 0 },
 { name: "無の境地クッキー炉", baseCost: 5e16, cps: 5e11, baseCps: 5e11, count: 0, cost: 5e16 },
 { name: "幻想クッキー創造機", baseCost: 2e17, cps: 1.5e12, baseCps: 1.5e12, count: 0, cost: 2e17 },
 { name: "超無限クッキーAI神殿", baseCost: 1e18, cps: 5e12, baseCps: 5e12, count: 0, cost: 1e18 },
@@ -343,9 +343,9 @@ const skills = [
   {
     id: "boostClick",
     name: "強化クリック",
-    desc: "クリックで+5増えるようになる",
+    desc: "クリックが10になる",
     condition: () => cookieCount >= 100,
-    apply: () => { clickValue += 5; },
+    apply: () => { clickValue += 9; },
     unlocked: false
   },
   {
