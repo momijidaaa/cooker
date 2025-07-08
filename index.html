@@ -5,7 +5,7 @@
   <title>クッキーを作るだけのサイト</title>
 
   <style>
-      
+    /* CSSここにそのままでOK */
   </style>
 </head>
 
@@ -132,11 +132,6 @@
 
   .clear { clear: both; }
 
-.achievement {
-  font-size: 0.85rem;
-  line-height: 1.4;
-}
-
   .skill, .achievement {
     background: #ffe6b3;
     color: #6b3f00;
@@ -255,6 +250,7 @@ let passiveBonus = basePassiveBonus;
 
 let prestige = 0;
 
+// ↓ここに追加
 let cookieStormActive = false;
 let cookieStormTimer = 0;
 let cookieStormCooldown = 0;
@@ -277,198 +273,335 @@ const facilities = [
   { name: "クッキー多元宇宙機", baseCost: 2000000000, cps: 1200000, baseCps: 1200000, count: 0, cost: 2000000000 },
   { name: "クッキー時間ループ炉", baseCost: 10000000000, cps: 5000000, baseCps: 5000000, count: 0, cost: 10000000000 },
   { name: "∞クッキー生成装置", baseCost: 50000000000, cps: 10000000, baseCps: 10000000, count: 0, cost: 50000000000 },
-  { name: "クッキー魔導書", baseCost: 120000, cps: 7000, baseCps: 7000, count: 0, cost: 120000 },
-  { name: "クッキー農園", baseCost: 7000, cps: 150, baseCps: 150, count: 0, cost: 7000 },
+  { name: "クッキー魔導書", baseCost: 100000, cps: 50, baseCps: 50, count: 0, cost: 100000 },
+  { name: "クッキー農園", baseCost: 7000, cps: 300, baseCps: 300, count: 0, cost: 7000 },
   { name: "クッキー爆弾工場", baseCost: 2000000, cps: 0, baseCps: 0, count: 0, cost: 2000000, special: "一定時間生産量2倍のボーナス発動可能" },
   { name: "クッキーロボット軍団", baseCost: 30000000, cps: 0, baseCps: 0, count: 0, cost: 30000000, special: "全施設の生産速度5%アップ（パッシブ）" },
-　{ name: "次元クッキー圧縮炉",       baseCost: 10000000,       cps: 30000,     baseCps: 30000,     count: 0, cost: 10000000 },
-　{ name: "超重力焼成室",             baseCost: 50000000,       cps: 100000,    baseCps: 100000,    count: 0, cost: 50000000 },
-　{ name: "クッキー物質変換装置",     baseCost: 200000000,      cps: 300000,    baseCps: 300000,    count: 0, cost: 200000000 },
-　{ name: "多次元クッキー撹拌炉",     baseCost: 800000000,      cps: 800000,    baseCps: 800000,    count: 0, cost: 800000000 },
-　{ name: "銀河系焼成炉",             baseCost: 3000000000,     cps: 2000000,   baseCps: 2000000,   count: 0, cost: 3000000000 },
-　{ name: "クッキー時間ループ炉",     baseCost: 10000000000,    cps: 5000000,   baseCps: 5000000,   count: 0, cost: 10000000000 },
-　{ name: "虚無クッキー工房",         baseCost: 30000000000,    cps: 12000000,  baseCps: 12000000,  count: 0, cost: 30000000000 },
-　{ name: "光速焼成ライン",           baseCost: 80000000000,    cps: 30000000,  baseCps: 30000000,  count: 0, cost: 80000000000 },
-　{ name: "量子クッキー製造器",       baseCost: 200000000000,   cps: 75000000,  baseCps: 75000000,  count: 0, cost: 200000000000 },
-　{ name: "ブラックホール炉",         baseCost: 500000000000,   cps: 150000000, baseCps: 150000000, count: 0, cost: 500000000000 },
-　{ name: "神々のクッキーハンマー",   baseCost: 1000000000000,  cps: 300000000, baseCps: 300000000, count: 0, cost: 1000000000000 },
-　{ name: "超銀河焼成複合体",         baseCost: 3000000000000,  cps: 700000000, baseCps: 700000000, count: 0, cost: 3000000000000 },
-　{ name: "時間凍結炉",               baseCost: 8000000000000,  cps: 1500000000,baseCps: 1500000000,count: 0, cost: 8000000000000 },
-　{ name: "マルチ宇宙クッキー場",     baseCost: 20000000000000, cps: 3000000000,baseCps: 3000000000,count: 0, cost: 20000000000000 },
-　{ name: "AI神クッキー設計所",       baseCost: 50000000000000, cps: 7000000000,baseCps: 7000000000,count: 0, cost: 50000000000000 },
-　{ name: "∞クッキー生成装置MK-II",   baseCost: 100000000000000,cps: 15000000000,baseCps: 15000000000,count: 0, cost: 100000000000000 },
-　{ name: "究極クッキー超融合炉",     baseCost: 300000000000000,cps: 35000000000,baseCps: 35000000000,count: 0, cost: 300000000000000 },
-　{ name: "運命書き換えクッキーマシン", baseCost: 800000000000000,cps: 80000000000,baseCps: 80000000000,count: 0, cost: 800000000000000 },
-　{ name: "神性焼成記憶装置",         baseCost: 2000000000000000,cps: 200000000000,baseCps: 200000000000,count: 0, cost: 2000000000000000 },
-　{ name: "宇宙の果てのクッキー塔",   baseCost: 9999999999999999,cps: 999999999999,cost: 9999999999999999, baseCps: 999999999999, count: 0 },
-　{ name: "神",   baseCost: 10000000000000000000000000000000000000000,cps: 999999999999999999999,cost: 10000000000000000000000000000000000000000, baseCps: 999999999999999999999, count: 0 },
-　{ name: "無の境地クッキー炉", baseCost: 5e16, cps: 5e11, baseCps: 5e11, count: 0, cost: 5e16 },
-　{ name: "幻想クッキー創造機", baseCost: 2e17, cps: 1.5e12, baseCps: 1.5e12, count: 0, cost: 2e17 },
-　{ name: "超無限クッキーAI神殿", baseCost: 1e68, cps: 5e32, baseCps: 5e32, count: 0, cost: 1e68 },
+{ name: "次元クッキー圧縮炉",       baseCost: 10000000,       cps: 30000,     baseCps: 30000,     count: 0, cost: 10000000 },
+{ name: "超重力焼成室",             baseCost: 50000000,       cps: 100000,    baseCps: 100000,    count: 0, cost: 50000000 },
+{ name: "クッキー物質変換装置",     baseCost: 200000000,      cps: 300000,    baseCps: 300000,    count: 0, cost: 200000000 },
+{ name: "多次元クッキー撹拌炉",     baseCost: 800000000,      cps: 800000,    baseCps: 800000,    count: 0, cost: 800000000 },
+{ name: "銀河系焼成炉",             baseCost: 3000000000,     cps: 2000000,   baseCps: 2000000,   count: 0, cost: 3000000000 },
+{ name: "クッキー時間ループ炉",     baseCost: 10000000000,    cps: 5000000,   baseCps: 5000000,   count: 0, cost: 10000000000 },
+{ name: "虚無クッキー工房",         baseCost: 30000000000,    cps: 12000000,  baseCps: 12000000,  count: 0, cost: 30000000000 },
+{ name: "光速焼成ライン",           baseCost: 80000000000,    cps: 30000000,  baseCps: 30000000,  count: 0, cost: 80000000000 },
+{ name: "量子クッキー製造器",       baseCost: 200000000000,   cps: 75000000,  baseCps: 75000000,  count: 0, cost: 200000000000 },
+{ name: "ブラックホール炉",         baseCost: 500000000000,   cps: 150000000, baseCps: 150000000, count: 0, cost: 500000000000 },
+{ name: "神々のクッキーハンマー",   baseCost: 1000000000000,  cps: 300000000, baseCps: 300000000, count: 0, cost: 1000000000000 },
+{ name: "超銀河焼成複合体",         baseCost: 3000000000000,  cps: 700000000, baseCps: 700000000, count: 0, cost: 3000000000000 },
+{ name: "時間凍結炉",               baseCost: 8000000000000,  cps: 1500000000,baseCps: 1500000000,count: 0, cost: 8000000000000 },
+{ name: "マルチ宇宙クッキー場",     baseCost: 20000000000000, cps: 3000000000,baseCps: 3000000000,count: 0, cost: 20000000000000 },
+{ name: "AI神クッキー設計所",       baseCost: 50000000000000, cps: 7000000000,baseCps: 7000000000,count: 0, cost: 50000000000000 },
+{ name: "∞クッキー生成装置MK-II",   baseCost: 100000000000000,cps: 15000000000,baseCps: 15000000000,count: 0, cost: 100000000000000 },
+{ name: "究極クッキー超融合炉",     baseCost: 300000000000000,cps: 35000000000,baseCps: 35000000000,count: 0, cost: 300000000000000 },
+{ name: "運命書き換えクッキーマシン", baseCost: 800000000000000,cps: 80000000000,baseCps: 80000000000,count: 0, cost: 800000000000000 },
+{ name: "神性焼成記憶装置",         baseCost: 2000000000000000,cps: 200000000000,baseCps: 200000000000,count: 0, cost: 2000000000000000 },
+{ name: "宇宙の果てのクッキー塔",   baseCost: 9999999999999999,cps: 999999999999,cost: 9999999999999999, baseCps: 999999999999, count: 0 },
+{ name: "神",   baseCost: 10000000000000000000000000000000000000000,cps: 999999999999999999999,cost: 10000000000000000000000000000000000000000, baseCps: 999999999999999999999, count: 0 },
+{ name: "無の境地クッキー炉", baseCost: 5e16, cps: 5e11, baseCps: 5e11, count: 0, cost: 5e16 },
+{ name: "幻想クッキー創造機", baseCost: 2e17, cps: 1.5e12, baseCps: 1.5e12, count: 0, cost: 2e17 },
+{ name: "超無限クッキーAI神殿", baseCost: 1e68, cps: 5e32, baseCps: 5e32, count: 0, cost: 1e68 },
 
 
 ];
-    
-function createSkill(id, name, desc, conditionFn, applyFn, conditionText) {
-  return {
-    id,
-    name,
-    desc,
-    condition: conditionFn,
-    apply: applyFn,
-    unlocked: false,
-    conditionText: conditionText || ""
-  };
-}
 
 
 const skills = [
-  createSkill("boostClick", "強化クリック", "クリックが10になる",
-    () => cookieCount >= 100,
-    () => { clickValue += 9; },
-    "クッキーを100個集める"
-  ),
-  createSkill("boostFactory", "生産強化", "オーブンの生産量が2倍",
-    () => facilities[1]?.count >= 10,
-    () => { facilities[1].cps = facilities[1].baseCps * 2; },
-    "オーブンを10個所有"
-  ),
-  createSkill("boostAI", "工場ブースト", "クッキー工場の生産量が30%増加",
-    () => facilities[2]?.count >= 3,
-    () => { facilities[2].cps = facilities[2].baseCps * 1.3; },
-    "クッキー工場を3個所有"
-  ),
-  createSkill("passiveGold", "黄金の手（パッシブ）", "常に+1クッキー/秒（自動）",
-    () => cookieCount >= 1000,
-    () => { basePassiveBonus += 1; },
-    "クッキーを1000個集める"
-  ),
-  createSkill("boostFlying", "空飛ぶ強化", "空飛ぶ工場の生産量が2倍",
-    () => facilities[5]?.count >= 5,
-    () => { facilities[5].cps = facilities[5].baseCps * 2; },
-    "空飛ぶ工場を5個所有"
-  ),
-  createSkill("boostTimeLab", "時空強化", "時空研究所の生産量が1.5倍",
-    () => facilities[6]?.count >= 3,
-    () => { facilities[6].cps = facilities[6].baseCps * 1.5; },
-    "時空研究所を3個所有"
-  ),
-  createSkill("boostPlasma", "プラズマ覚醒", "プラズマ炉の生産量が2倍",
-    () => facilities[8]?.count >= 3,
-    () => { facilities[8].cps = facilities[8].baseCps * 2; },
-    "クッキープラズマ炉を3個所有"
-  ),
-  createSkill("blessingTemple", "神殿の祝福", "+10000クッキー/秒のパッシブ",
-    () => facilities[10]?.count >= 1,
-    () => { basePassiveBonus += 10000; },
-    "宇宙クッキー連盟を1個所有"
-  ),
-  createSkill("infiniteBoost", "∞ブースト", "∞装置の生産量が3倍",
-    () => facilities[14]?.count >= 1,
-    () => { facilities[14].cps = facilities[14].baseCps * 3; },
-    "∞クッキー生成装置を1個所有"
-  ),
-  createSkill("beyondInfinity", "超越の力", "全施設の生産量が50%アップ",
-    () => cookieCount >= 1e17,
-    () => { facilities.forEach(f => f.cps = f.baseCps * 1.5); },
-    "クッキーを100京以上集める"
-  ),
-  createSkill("clickInfinity", "インフィニティクリック", "クリックで+10億獲得",
-    () => cookieCount >= 5e16,
-    () => { clickValue += 1e9; },
-    "クッキーを50京以上集める"
-  ),
-  createSkill("voidPassive", "虚無の自動生成", "+1兆クッキー/秒を得る",
-    () => facilities[facilities.length - 1]?.count >= 1,
-    () => { basePassiveBonus += 1e12; },
-    "最終施設を1個所有"
-  ),
-  createSkill("superClick", "超強化クリック", "クリックで+10増える",
-    () => cookieCount >= 10000,
-    () => { clickValue += 10; },
-    "クッキーを1万個集める"
-  ),
-  createSkill("factoryMaster", "工場マスター", "全施設の生産量+10%",
-    () => facilities.reduce((a, f) => a + f.count, 0) >= 50,
-    () => { facilities.forEach(f => f.cps = f.baseCps * 1.1); },
-    "施設を合計50個所有"
-  ),
-  createSkill("passiveBoost", "パッシブブースト", "パッシブ+100",
-    () => cookieCount >= 50000,
-    () => { basePassiveBonus += 100; },
-    "クッキーを5万個集める"
-  ),
-  createSkill("clickCombo", "クリックコンボ", "連続クリックでボーナス",
-    () => clickValue >= 20,
-    () => { /* 今後実装 */ },
-    "クリック値20以上"
-  ),
-  createSkill("ultimateSpeed", "究極の速さ", "施設コスト上昇10%減",
-    () => prestige >= 10,
-    () => { /* 今後実装 */ },
-    "プレミアム10以上"
-  ),
-  createSkill("megaClick", "メガクリック", "クリック+50",
-    () => cookieCount >= 500000,
-    () => { clickValue += 50; },
-    "クッキーを50万個集める"
-  ),
-  createSkill("hyperFactory", "ハイパーファクトリー", "全施設生産+20%",
-    () => facilities.reduce((a, f) => a + f.count, 0) >= 200,
-    () => { facilities.forEach(f => f.cps = f.baseCps * 1.2); },
-    "施設を合計200個所有"
-  ),
-  createSkill("goldenTouch", "黄金のタッチ", "クリック時に1%で1000ゲット",
-    () => cookieCount >= 100000,
-    () => { /* 今後実装 */ },
-    "クッキーを10万個集める"
-  ),
-  createSkill("timeWarp", "タイムワープ", "1秒ごとにプレミアム+1",
-    () => prestige >= 5,
-    () => { /* 今後実装 */ },
-    "プレミアム5以上"
-  )
+  {
+    id: "boostClick",
+    name: "強化クリック",
+    desc: "クリックが10になる",
+    condition: () => cookieCount >= 100,
+    apply: () => { clickValue += 9; },
+    unlocked: false
+  },
+  {
+    id: "boostFactory",
+    name: "生産強化",
+    desc: "オーブンの生産量が2倍になる",
+    condition: () => facilities[1]?.count >= 10,
+    apply: () => { facilities[1].cps = facilities[1].baseCps * 2; },
+    unlocked: false
+  },
+  {
+    id: "boostAI",
+    name: "工場強化",
+    desc: "クッキー工場の生産量が30%増加",
+    condition: () => facilities[2]?.count >= 3,
+    apply: () => { facilities[2].cps = facilities[2].baseCps * 1.3; },
+    unlocked: false
+  },
+  {
+    id: "passiveGold",
+    name: "黄金の手（パッシブ）",
+    desc: "常に+1クッキー/秒（自動）",
+    condition: () => cookieCount >= 1000,
+    apply: () => { basePassiveBonus += 1; },
+    unlocked: false
+  },
+  {
+    id: "boostFlying",
+    name: "空飛ぶ強化",
+    desc: "空飛ぶ工場の生産量が2倍になる",
+    condition: () => facilities[5]?.count >= 5,
+    apply: () => { facilities[5].cps = facilities[5].baseCps * 2; },
+    unlocked: false
+  },
+  {
+    id: "boostTimeLab",
+    name: "時空強化",
+    desc: "時空研究所の生産量が1.5倍になる",
+    condition: () => facilities[6]?.count >= 3,
+    apply: () => { facilities[6].cps = facilities[6].baseCps * 1.5; },
+    unlocked: false
+  },
+  {
+    id: "boostPlasma",
+    name: "プラズマ覚醒",
+    desc: "クッキープラズマ炉の生産量が2倍になる",
+    condition: () => facilities[8]?.count >= 3,
+    apply: () => { facilities[8].cps = facilities[8].baseCps * 2; },
+    unlocked: false
+  },
+  {
+    id: "blessingTemple",
+    name: "神殿の祝福",
+    desc: "+10000クッキー/秒のパッシブを得る",
+    condition: () => facilities[10]?.count >= 1,
+    apply: () => { basePassiveBonus += 10000; },
+    unlocked: false
+  },
+  {
+    id: "infiniteBoost",
+    name: "∞ブースト",
+    desc: "∞クッキー生成装置の生産量が3倍になる",
+    condition: () => facilities[14]?.count >= 1,
+    apply: () => { facilities[14].cps = facilities[14].baseCps * 3; },
+    unlocked: false
+   },
+  {
+  id: "beyondInfinity",
+  name: "超越の力",
+  desc: "全施設の生産量が50%アップ",
+  condition: () => cookieCount >= 1e17,
+  apply: () => {
+    facilities.forEach(f => f.cps = f.baseCps * 1.5);
+  },
+  unlocked: false
+},
+{
+  id: "clickInfinity",
+  name: "インフィニティクリック",
+  desc: "クリックで+10億クッキー獲得",
+  condition: () => cookieCount >= 5e16,
+  apply: () => { clickValue += 1e9; },
+  unlocked: false
+},
+{
+  id: "voidPassive",
+  name: "虚無の自動生成",
+  desc: "常に+1兆クッキー/秒を得る",
+  condition: () => facilities[facilities.length - 1]?.count >= 1,
+  apply: () => { basePassiveBonus += 1e12; },
+  unlocked: false
+
+
+  },
+
+  // 追加スキル多数
+
+  {
+    id: "superClick",
+    name: "超強化クリック",
+    desc: "クリックでさらに+10増える",
+    condition: () => cookieCount >= 10000,
+    apply: () => { clickValue += 10; },
+    unlocked: false
+  },
+  {
+    id: "factoryMaster",
+    name: "工場マスター",
+    desc: "全ての施設の生産量が10%アップ",
+    condition: () => facilities.reduce((acc, f) => acc + f.count, 0) >= 50,
+    apply: () => {
+      facilities.forEach(f => {
+        f.cps = f.baseCps * 1.1;
+      });
+    },
+    unlocked: false
+  },
+  {
+    id: "passiveBoost",
+    name: "パッシブブースト",
+    desc: "パッシブボーナスが+100増加",
+    condition: () => cookieCount >= 50000,
+    apply: () => { basePassiveBonus += 100; },
+    unlocked: false
+  },
+  {
+    id: "clickCombo",
+    name: "クリックコンボ",
+    desc: "連続クリックでボーナスクッキー獲得",
+    condition: () => clickValue >= 20,
+    apply: () => { /* 任意の処理を後で実装可能 */ },
+    unlocked: false
+  },
+  {
+    id: "ultimateSpeed",
+    name: "究極の速さ",
+    desc: "施設購入時のコスト上昇が10%減少",
+    condition: () => prestige >= 10,
+    apply: () => { /* コスト上昇抑制をゲームループに実装する必要あり */ },
+    unlocked: false
+  },
+  {
+    id: "megaClick",
+    name: "メガクリック",
+    desc: "クリックで+50増える",
+    condition: () => cookieCount >= 500000,
+    apply: () => { clickValue += 50; },
+    unlocked: false
+  },
+  {
+    id: "hyperFactory",
+    name: "ハイパーファクトリー",
+    desc: "全施設の生産量が20%アップ",
+    condition: () => facilities.reduce((acc, f) => acc + f.count, 0) >= 200,
+    apply: () => {
+      facilities.forEach(f => {
+        f.cps = f.baseCps * 1.2;
+      });
+    },
+    unlocked: false
+  },
+  {
+    id: "goldenTouch",
+    name: "黄金のタッチ",
+    desc: "クリック時に1%の確率で1000クッキー獲得",
+    condition: () => cookieCount >= 100000,
+    apply: () => { /* イベント処理はクリック時に実装 */ },
+    unlocked: false
+  },
+  {
+    id: "timeWarp",
+    name: "タイムワープ",
+    desc: "1秒ごとにプレミアムを+1獲得",
+    condition: () => prestige >= 5,
+    apply: () => { /* ゲームループで増加処理を実装 */ },
+    unlocked: false
+  },
+  {
+    id: "cookieStorm",
+    name: "クッキーストーム",
+    desc: "10秒間クッキー生産量が3倍になる（クールダウンあり）",
+    condition: () => cookieCount >= 1000000,
+    apply: () => { /* スキル発動ロジックを別途実装 */ },
+    unlocked: false
+  },
+  {
+    id: "factoryOverdrive",
+    name: "工場オーバードライブ",
+    desc: "全施設の生産量が50%アップ（30秒間）",
+    condition: () => facilities[2].count >= 20,
+    apply: () => { /* 一時的バフの管理が必要 */ },
+    unlocked: false
+  },
+  {
+    id: "legacyBoost",
+    name: "遺産のブースト",
+    desc: "リセット時に獲得するプレミアムが2倍になる",
+    condition: () => prestige >= 20,
+    apply: () => { /* リセット時の計算を修正 */ },
+    unlocked: false
+  },
+  {
+    id: "autoBuyer",
+    name: "自動購入システム",
+    desc: "一定間隔で施設を自動購入（購入可能なら）",
+    condition: () => cookieCount >= 10000000,
+    apply: () => { /* 自動購入の実装が必要 */ },
+    unlocked: false
+  },
+  {
+    id: "skillMastery",
+    name: "スキルマスタリー",
+    desc: "全スキルの効果が20%アップ",
+    condition: () => skills.every(s => s.unlocked),
+    apply: () => {
+      // スキル効果を乗算で強化するロジックを別途実装
+    },
+    unlocked: false
+  },
+{
+  id: "fastProduction",
+  name: "高速生産",
+  desc: "全ての施設の生産速度が1.5倍になる",
+  condition: () => facilities.reduce((acc, f) => acc + f.count, 0) >= 30,
+  apply: () => {
+    facilities.forEach(f => {
+      f.cps = f.baseCps * 1.5;
+    });
+  },
+  unlocked: false
+},
+{
+  id: "clickMania",
+  name: "クリックマニア",
+  desc: "クリック時のクッキー獲得量が+20増える",
+  condition: () => cookieCount >= 20000,
+  apply: () => { clickValue += 20; },
+  unlocked: false
+},
+{
+  id: "passiveMaster2",
+  name: "パッシブの達人2",
+  desc: "パッシブボーナスが+500増える",
+  condition: () => prestige >= 20,
+  apply: () => { basePassiveBonus += 500; },
+  unlocked: false
+}
+
 ];
 
+ const achievements = [
+  // ★低難易度（初期～100万クッキーあたり）
+  { id: "firstClick", name: "初クリック", condition: () => cookieCount >= 1, unlocked: false },
+  { id: "hundredCookies", name: "100クッキー", condition: () => cookieCount >= 100, unlocked: false },
+  { id: "thousandCookies", name: "1000クッキー", condition: () => cookieCount >= 1000, unlocked: false },
+  { id: "tenThousandCookies", name: "1万クッキー", condition: () => cookieCount >= 10000, unlocked: false },
+  { id: "hundredThousandCookies", name: "10万クッキー", condition: () => cookieCount >= 100000, unlocked: false },
+  { id: "millionCookies", name: "100万クッキー", condition: () => cookieCount >= 1000000, unlocked: false },
+  { id: "speedClicker", name: "高速クリック", condition: () => clickValue >= 10, unlocked: false },
+  { id: "factoryOwner", name: "工場主", condition: () => facilities[1].count >= 10, unlocked: false },
+  { id: "megaFactory", name: "メガ工場主", condition: () => facilities[1].count >= 50, unlocked: false },
 
-const achievements = [
-  // ★低難易度
-  { id: "firstClick", name: "初クリック", description: "クッキーを1個集める", condition: () => cookieCount >= 1, unlocked: false },
-  { id: "hundredCookies", name: "100クッキー", description: "クッキーを100個集める", condition: () => cookieCount >= 100, unlocked: false },
-  { id: "thousandCookies", name: "1000クッキー", description: "クッキーを1000個集める", condition: () => cookieCount >= 1000, unlocked: false },
-  { id: "tenThousandCookies", name: "1万クッキー", description: "クッキーを1万個集める", condition: () => cookieCount >= 10000, unlocked: false },
-  { id: "hundredThousandCookies", name: "10万クッキー", description: "クッキーを10万個集める", condition: () => cookieCount >= 100000, unlocked: false },
-  { id: "millionCookies", name: "100万クッキー", description: "クッキーを100万個集める", condition: () => cookieCount >= 1000000, unlocked: false },
-  { id: "speedClicker", name: "高速クリック", description: "クリックで+10以上獲得する", condition: () => clickValue >= 10, unlocked: false },
-  { id: "factoryOwner", name: "工場主", description: "オーブンを10個所有", condition: () => facilities[1].count >= 10, unlocked: false },
-  { id: "megaFactory", name: "メガ工場主", description: "オーブンを50個所有", condition: () => facilities[1].count >= 50, unlocked: false },
+  // ★中難易度（100万～10億クッキー、施設100個～300個あたり）
+  { id: "ultimateFactoryOwner", name: "究極の工場主", condition: () => facilities.reduce((acc, f) => acc + f.count, 0) >= 100, unlocked: false },
+  { id: "clickMaster", name: "クリックマスター", condition: () => clickValue >= 30, unlocked: false },
+  { id: "achievementHunter", name: "称号ハンター", condition: () => achievements.filter(a => a.unlocked).length >= 10, unlocked: false },
+  { id: "passivePro", name: "パッシブの達人", condition: () => basePassiveBonus >= 1000, unlocked: false },
+  { id: "goldenHand", name: "黄金の手", condition: () => basePassiveBonus >= 10000, unlocked: false },
+  { id: "spaceColonist", name: "宇宙入植者", condition: () => facilities[4].count >= 5, unlocked: false },
+  { id: "timeTraveler", name: "時間旅行者", condition: () => facilities[5].count >= 10, unlocked: false },
+  { id: "plasmaMaster", name: "プラズマの達人", condition: () => facilities[9].count >= 7, unlocked: false },
+  { id: "spaceExplorer", name: "宇宙探検家", condition: () => facilities[10].count >= 5, unlocked: false },
+  { id: "skillCollectorPro", name: "スキル収集家", condition: () => skills.filter(s => s.unlocked).length >= 10, unlocked: false },
+  { id: "ultimateClicker", name: "究極のクリック職人", condition: () => clickValue >= 100, unlocked: false },
+  { id: "ultimateCollector", name: "究極の収集者", condition: () => facilities.every(f => f.count >= 1), unlocked: false },
+  { id: "stormRider", name: "ストームライダー", condition: () => cookieStormCooldown > 0, unlocked: false },
+  { id: "factoryGiant", name: "工場巨人", condition: () => facilities.reduce((acc, f) => acc + f.count, 0) >= 300, unlocked: false },
 
-  // ★中難易度
-  { id: "ultimateFactoryOwner", name: "究極の工場主", description: "全施設合計で100個所有", condition: () => facilities.reduce((acc, f) => acc + f.count, 0) >= 100, unlocked: false },
-  { id: "clickMaster", name: "クリックマスター", description: "クリックで+30以上獲得する", condition: () => clickValue >= 30, unlocked: false },
-  { id: "achievementHunter", name: "称号ハンター", description: "10個の称号を獲得する", condition: () => achievements.filter(a => a.unlocked).length >= 10, unlocked: false },
-  { id: "passivePro", name: "パッシブの達人", description: "パッシブボーナスが1000以上", condition: () => basePassiveBonus >= 1000, unlocked: false },
-  { id: "goldenHand", name: "黄金の手", description: "パッシブボーナスが10000以上", condition: () => basePassiveBonus >= 10000, unlocked: false },
-  { id: "spaceColonist", name: "宇宙入植者", description: "クッキー星基地を5個所有", condition: () => facilities[4].count >= 5, unlocked: false },
-  { id: "timeTraveler", name: "時間旅行者", description: "時間操作装置を10個所有", condition: () => facilities[5].count >= 10, unlocked: false },
-  { id: "plasmaMaster", name: "プラズマの達人", description: "クッキープラズマ炉を7個所有", condition: () => facilities[9].count >= 7, unlocked: false },
-  { id: "spaceExplorer", name: "宇宙探検家", description: "宇宙クッキー連盟を5個所有", condition: () => facilities[10].count >= 5, unlocked: false },
-  { id: "skillCollectorPro", name: "スキル収集家", description: "10個以上のスキルを解放", condition: () => skills.filter(s => s.unlocked).length >= 10, unlocked: false },
-  { id: "ultimateClicker", name: "究極のクリック職人", description: "クリックで+100以上獲得する", condition: () => clickValue >= 100, unlocked: false },
-  { id: "ultimateCollector", name: "究極の収集者", description: "すべての施設を1つ以上所有", condition: () => facilities.every(f => f.count >= 1), unlocked: false },
-  { id: "stormRider", name: "ストームライダー", description: "クッキーストーム使用中", condition: () => cookieStormCooldown > 0, unlocked: false },
-  { id: "factoryGiant", name: "工場巨人", description: "全施設合計で300個所有", condition: () => facilities.reduce((acc, f) => acc + f.count, 0) >= 300, unlocked: false },
+  // ★高難易度（兆～垓クッキー、施設数1000以上）
+  { id: "beyondTrillion", name: "兆のその先へ", condition: () => cookieCount >= 1e15, unlocked: false },
+  { id: "facilityMaster", name: "施設の神", condition: () => facilities.reduce((a, f) => a + f.count, 0) >= 1000, unlocked: false },
+  { id: "cookieGod", name: "クッキー神", condition: () => cookieCount >= 1e18, unlocked: false },
 
-  // ★高難易度
-  { id: "beyondTrillion", name: "兆のその先へ", description: "クッキーを1京（1e15）個以上集める", condition: () => cookieCount >= 1e15, unlocked: false },
-  { id: "facilityMaster", name: "施設の神", description: "全施設合計で1000個所有", condition: () => facilities.reduce((a, f) => a + f.count, 0) >= 1000, unlocked: false },
-  { id: "cookieGod", name: "クッキー神", description: "クッキーを100京（1e18）個以上集める", condition: () => cookieCount >= 1e18, unlocked: false },
+  // ★最終難易度（すべての称号解除）
+  { id: "skillCollector", name: "スキルマスター", condition: () => skills.every(s => s.unlocked), unlocked: false },
+  { id: "allAchievements", name: "伝説の称号者", condition: () => achievements.every(a => a.unlocked || a.id === "allAchievements"), unlocked: false }
 
-  // ★最終難易度
-  { id: "skillCollector", name: "スキルマスター", description: "全スキルを解放する", condition: () => skills.every(s => s.unlocked), unlocked: false },
-  { id: "allAchievements", name: "伝説の称号者", description: "すべての称号を獲得する", condition: () => achievements.every(a => a.unlocked || a.id === "allAchievements"), unlocked: false }
+
 ];
-
 
 
 function drawCookie() {
@@ -557,29 +690,23 @@ function buyFacility(i) {
     saveGame();
   }
 }
+
 function renderSkills() {
   skillArea.innerHTML = "<h2>🧪 スキルツリー</h2>";
   skills.forEach(skill => {
     const div = document.createElement('div');
     div.className = 'skill';
-    div.innerHTML = `<strong>${skill.name}</strong><br>${skill.desc}<br>`;
-    
+    div.innerHTML = `<strong>${skill.name}</strong><br>${skill.desc}`;
     if (skill.unlocked) {
-      div.innerHTML += "✅ 解放済";
+      div.innerHTML += " ✅ 解放済";
     } else if (skill.condition()) {
       const btn = document.createElement('button');
       btn.textContent = "解放";
       btn.onclick = () => unlockSkill(skill.id);
       div.appendChild(btn);
     } else {
-      div.innerHTML += "🔒 条件未達成";
+      div.innerHTML += " 🔒 条件未達成";
     }
-
-    // 👇 条件表示（あってもなくてもOK）
-    if (skill.conditionText) {
-      div.innerHTML += `<br><span style="font-size:0.85rem;color:#444;">条件: ${skill.conditionText}</span>`;
-    }
-
     skillArea.appendChild(div);
   });
 }
@@ -601,15 +728,10 @@ function renderAchievements() {
       a.unlocked = true;
       alert(`称号獲得！「${a.name}」`);
     }
-   const div = document.createElement('div');
-div.className = 'achievement' + (a.unlocked ? ' unlocked' : '');
-div.innerHTML = `
-  <strong>${a.name}</strong><br>
-  ${a.unlocked ? "✅ 解放済" : "🔒 未達成"}<br>
-  条件: ${a.description || "???"}
-`;
-achievementArea.appendChild(div);
-
+    const div = document.createElement('div');
+    div.className = 'achievement' + (a.unlocked ? ' unlocked' : '');
+    div.textContent = a.name;
+    achievementArea.appendChild(div);
   });
 }
 
